@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Origins AI - Asistente Inteligente</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Prism.js para resaltado de código -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-robot"></i>
+            <h2>Origins AI</h2>
+        </div>
+        <div class="nav-status">
+            <span class="status-dot"></span>
+            <span>Online</span>
+        </div>
+        <div class="nav-actions">
+            <button id="clearChatBtn" class="nav-btn">
+                <i class="fas fa-trash"></i>
+            </button>
+            <button id="exportBtn" class="nav-btn">
+                <i class="fas fa-download"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Panel de Chat -->
+        <div class="chat-panel">
+            <div class="chat-header">
+                <i class="fas fa-comment-dots"></i>
+                <h3>Conversación</h3>
+                <span id="messageCount">0 mensajes</span>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <!-- Mensajes se generarán aquí -->
+                <div class="message ai-message">
+                    <div class="message-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-content">
+                        <div class="message-header">
+                            <span class="sender">Origins AI</span>
+                            <span class="timestamp">Ahora</span>
+                        </div>
+                        <p>¡Hola! Soy Origins, tu asistente IA. Puedo:</p>
+                        <ul>
+                            <li>💬 Responder preguntas</li>
+                            <li>💻 Ejecutar código en múltiples lenguajes</li>
+                            <li>📊 Visualizar resultados en tiempo real</li>
+                            <li>🔒 Cifrar y guardar tus datos</li>
+                        </ul>
+                        <p>¿En qué puedo ayudarte hoy?</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input-area">
+                <div class="input-wrapper">
+                    <textarea id="userInput" placeholder="Escribe tu mensaje o código aquí..." rows="3"></textarea>
+                    <div class="input-actions">
+                        <button id="sendBtn" class="send-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                        <button id="codeBtn" class="code-btn" title="Insertar bloque de código">
+                            <i class="fas fa-code"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="input-tools">
+                    <span class="tool-hint"><i class="fas fa-keyboard"></i> Ctrl+Enter para enviar</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel de Código/Visualización -->
+        <div class="code-panel">
+            <div class="panel-tabs">
+                <button class="tab-btn active" data-tab="editor">
+                    <i class="fas fa-edit"></i> Editor
+                </button>
+                <button class="tab-btn" data-tab="output">
+                    <i class="fas fa-terminal"></i> Output
+                </button>
+                <button class="tab-btn" data-tab="visual">
+                    <i class="fas fa-chart-bar"></i> Visual
+                </button>
+            </div>
+
+            <div class="panel-content">
+                <div id="editor" class="tab-content active">
+                    <div class="code-header">
+                        <select id="languageSelect" class="language-select">
+                            <option value="javascript">JavaScript</option>
+                            <option value="python">Python</option>
+                            <option value="html">HTML</option>
+                            <option value="css">CSS</option>
+                            <option value="json">JSON</option>
+                        </select>
+                        <button id="runCodeBtn" class="run-btn">
+                            <i class="fas fa-play"></i> Ejecutar
+                        </button>
+                        <button id="formatCodeBtn" class="format-btn">
+                            <i class="fas fa-magic"></i>
+                        </button>
+                    </div>
+                    <div class="code-editor-wrapper">
+                        <textarea id="codeEditor" class="code-editor" spellcheck="false">// Escribe tu código aquí
+console.log("¡Hola desde Origins AI!");
+
+// Ejemplo: función simple
+function saludar(nombre) {
+    return `¡Hola ${nombre}!`;
+}
+
+console.log(saludar("Mundo"));</textarea>
+                    </div>
+                </div>
+
+                <div id="output" class="tab-content">
+                    <div class="output-header">
+                        <span><i class="fas fa-terminal"></i> Consola</span>
+                        <button id="clearOutputBtn" class="clear-btn">
+                            <i class="fas fa-eraser"></i>
+                        </button>
+                    </div>
+                    <div id="outputContent" class="output-content">
+                        <div class="output-line">> ¡Bienvenido a Origins AI!</div>
+                        <div class="output-line">> El código se ejecutará aquí</div>
+                    </div>
+                </div>
+
+                <div id="visual" class="tab-content">
+                    <div class="visual-header">
+                        <span><i class="fas fa-chart-bar"></i> Visualización</span>
+                    </div>
+                    <div id="visualContent" class="visual-content">
+                        <canvas id="visualCanvas" width="600" height="400"></canvas>
+                        <div id="visualPlaceholder" class="visual-placeholder">
+                            <i class="fas fa-chart-line"></i>
+                            <p>Los gráficos se mostrarán aquí</p>
+                            <small>Ejecuta código con visualizaciones</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-html.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
