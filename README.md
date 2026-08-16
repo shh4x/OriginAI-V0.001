@@ -17,7 +17,7 @@ Asistente inteligente con ejecución de código en tiempo real, visualización d
 ### Opción 1: Clonar repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/origins-ai.git
+git clone https://github.com/shh4x/origins-ai.git
 cd origins-ai
 npm install
 npm start
